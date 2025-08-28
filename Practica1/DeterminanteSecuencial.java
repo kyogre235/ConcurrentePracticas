@@ -1,5 +1,13 @@
+/**
+ * Clase que calcula el determinante de una matriz 3x3 de forma secuencial
+ */
 public class DeterminanteSecuencial {
 
+    /**
+     * Método que calcula el determinante de una matriz 3x3 de forma secuencial
+     * @param matriz Matriz de la cual se va a calcular el determinante
+     * @return Determinante de la matriz
+     */
     public static int determinanteMatriz3x3(int[][] matriz) {
         // Regla de Sarrus
         int positivos = (matriz[0][0] * matriz[1][1] * matriz[2][2])
