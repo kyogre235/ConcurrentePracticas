@@ -1,3 +1,8 @@
+/**
+ * Clase que calcula el determinante de una matriz 3x3 de manera concurrente.
+ * 
+ * @author Prof. MCIC. Gilde Valeria Rodríguez Jiménez
+ */
 public class DeterminanteConcurrente extends Thread{
     static int determinante;
     static int n_prueba = 3;
@@ -33,7 +38,7 @@ public class DeterminanteConcurrente extends Thread{
 			thr6.join();
 		}catch(InterruptedException e) {}
         result = thr1.partial + thr2.partial + thr3.partial - thr4.partial - thr5.partial - thr6.partial;
-       
+        
         return result;
     }
     
@@ -47,8 +52,6 @@ public class DeterminanteConcurrente extends Thread{
 		determinante = determinanteMatriz3x3(matriz_prueba, n_prueba);
 		long endTime = System.nanoTime();
         System.out.println("Program took " +
-                (endTime - startTime) + "ns, result: " + determinante) ;
-
+                (endTime - startTime) + "ns, result: " + determinante);
 	}
-
 }
