@@ -8,21 +8,25 @@ public class ColaSecuencial {
 	    this.tail  = new Nodo("tnull");
 	    this.head.next = this.tail;
 	}
-	public Boolean enq(String x) {
-		Nodo newnode = new Nodo(x);
-		if(this.head.next == this.tail) {
-			newnode.next = this.tail;
-			this.head.next = newnode;	
-		}else {
-			Nodo last =  this.tail.next;
-			newnode.next = tail;
-			last.next = newnode;
+	//public synchronized Boolean enq(String x) {
+		public Boolean enq(String x){
+    Nodo newnode = new Nodo(x);
+    Nodo last  = this.head;
+    
+    // 1. Recorremos la lista para encontrar el último nodo
+		//    (el que está justo antes de 'tail').
+		while (last.next != this.tail) {
+			last = last.next;
 		}
-		tail.next = newnode;
+		
+		// 2. Insertamos el nuevo nodo entre 'last' y 'tail'.
+		newnode.next = this.tail;
+		last.next = newnode;
 		return true;
 	}
-	public String deq() {
-		if(this.head.next == this.tail) {
+	//public synchronized String deq() {
+	  public String deq(){
+    if(this.head.next == this.tail) {
 			return "empty";
 		}
 		Nodo first = this.head.next;
@@ -41,21 +45,5 @@ public class ColaSecuencial {
         }
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ColaSecuencial queue = new ColaSecuencial();
-		queue.deq();
-		queue.enq("x");
-		queue.enq("a");
-		queue.deq();
-		queue.enq("b");
-		queue.enq("c");
-		queue.deq();
-		queue.deq();
-		queue.deq();
-		queue.deq();
-		queue.enq("x");
-		queue.print();
-		}
-
+	
 }

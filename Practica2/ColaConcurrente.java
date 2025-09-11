@@ -31,6 +31,7 @@ public class ColaConcurrente{
        * implementacion
        * */
       return executor.submit(() -> {
+            System.out.println("Hilo " + Thread.currentThread().getId() + " intenta encolar: " + contenido);
             return cola.enq(contenido);
         });
 
@@ -38,7 +39,9 @@ public class ColaConcurrente{
 
      public Future<String> deq (){
       return executor.submit(() -> {
+         System.out.println("Hilo " + Thread.currentThread().getId() + " intenta desencolar...");
         String elem = cola.deq();
+        System.out.println("Hilo " + Thread.currentThread().getId() + " logró desencolar: " + elem);
         return elem;
       });
     }
