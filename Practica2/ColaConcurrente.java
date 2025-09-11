@@ -1,55 +1,93 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-public class ColaConcurrente{
-    /* 
-     * usaremos la cola secuencial y
-     * simplemente le pasaremos sus metodos
-     * al pool de hilos. 
-     * */
+/**
+ * Clase que simula una cola concurrente utilizando una pool de hilos
+ */
+public class ColaConcurrente {
+    
+    /**
+     * Cola secuencial
+     */
     private ColaSecuencial cola;
+
+    /**
+     * Pool de hilos
+     */
     private ExecutorService executor;
 
-    public ColaConcurrente(int hilos){
-      /*
-       *  Creamos la cola y el pool
-       * */
-      this.cola = new ColaSecuencial();
-      this.executor = Executors.newFixedThreadPool(hilos);
+    /**
+     * Constructor de la clase
+     * @param hilos Cantidad de hilos en la pool
+     */
+    public ColaConcurrente(int hilos) {
+
+        /* Inicializamos la cola y el pool */
+        this.cola = new ColaSecuencial();
+        this.executor = Executors.newFixedThreadPool(hilos);
     }
 
-    public Future<Boolean> enq(String contenido){
-      /*
-       * el metodo execute nesesita un objeto de tipo Runnable,
-       * asi que lo generamos con una lambda que nos facilita la
-       * implementacion
-       * */
-      return executor.submit(() -> {
-            System.out.println("Hilo " + Thread.currentThread().getId() + " intenta encolar: " + contenido);
+    /**
+     * Encolar un nodo a la cola
+     * @see ColaSecuencial#enq(String) ColaSecuencial#enq(String)
+     * @param contenido Contenido a encolar
+     * @return Respuesta a la operación asincrónica.
+     *         <code>true</code> si fue éxitosa, <code>false</code> si ocurió un error
+     */
+    public Future<Boolean> enq(String contenido) {
+
+        /*
+         * El método submit necesita un objeto de tipo Runnable.
+         * Lo generamos con una expresión lambda que nos facilita la
+         * implementación.
+         */
+        return executor.submit(() -> {
+            // System.out.println("Hilo " + Thread.currentThread().threadId() + " intenta encolar: " + contenido); // Java 19 en adelante
+            System.out.println("Hilo " + Thread.currentThread().getId() + " intenta encolar: " + contenido); // Java 18 y algunos predecesoras
             return cola.enq(contenido);
         });
+    }
 
-      }
+    /**
+     * Des-encolar un nodo de la cola
+     * @see ColaSecuencial#deq() ColaSecuencial#deq()
+     * @return Respuesta a la operación asincrónica.
+     *         Cadena con el contenido del elemento des-encolado
+     */
+    public Future<String> deq () {
 
-     public Future<String> deq (){
-      return executor.submit(() -> {
-         System.out.println("Hilo " + Thread.currentThread().getId() + " intenta desencolar...");
-        String elem = cola.deq();
-        System.out.println("Hilo " + Thread.currentThread().getId() + " logró desencolar: " + elem);
-        return elem;
-      });
+        /*
+         * El método submit necesita un objeto de tipo Runnable.
+         * Lo generamos con una expresión lambda que nos facilita la
+         * implementación.
+         */
+        return executor.submit(() -> {
+            // System.out.println("Hilo " + Thread.currentThread().threadId() + " intenta desencolar..."); // Java +19
+            System.out.println("Hilo " + Thread.currentThread().getId() + " intenta desencolar..."); // Java 19-
+            String elem = cola.deq();
+            // System.out.println("Hilo " + Thread.currentThread().threadId() + " logró desencolar: " + elem); // Java +19
+            System.out.println("Hilo " + Thread.currentThread().getId() + " logró desencolar: " + elem); // Java 19-
+            return elem;
+        });
     }
     
-    public void print(){
-      cola.print();
+    /**
+     * Imprime el contenido de los nodos en la cola
+     * @see ColaSecuencial#print() ColaSecuencial#print()
+     */
+    public void print() {
+        cola.print();
     }
 
+    /**
+     * Detiene la ejecución de la cola.
+     * Da un tiempo máximo de 60 segundos para terminar o se fuerza a terminar.
+     */
     public void shutdown() {
         executor.shutdown(); // No acepta nuevas tareas y espera que las actuales terminen.
         try {
@@ -63,14 +101,20 @@ public class ColaConcurrente{
         }
     }
 
+    /**
+     * Ejecución principal de la clase.
+     * @param args Argumentos (No utilziados)
+     * @throws InterruptedException Si sucede un error al usar la pool de hilos
+     */
     public static void main(String[] args) throws InterruptedException {
-      ColaConcurrente colita = new ColaConcurrente(4);
-      
-      //Lista para guardar todos los Futures 
-      List<Future<?>> futuros = new ArrayList<>();
+        // Cola
+        ColaConcurrente colita = new ColaConcurrente(4);
+
+        // Lista para guardar todos los Futures 
+        List<Future<?>> futuros = new ArrayList<>();
 
 
-      // Enviamos varias tareas de enq y deq al mismo tiempo.
+        // Enviamos varias tareas de enq y deq al mismo tiempo.
         futuros.add(colita.enq("A"));
         futuros.add(colita.enq("B"));
         futuros.add(colita.deq());
@@ -87,11 +131,9 @@ public class ColaConcurrente{
                 e.printStackTrace();
             }
         }
-        
+
         colita.shutdown();
-
         colita.print();
-
     }
 }
 
