@@ -3,7 +3,6 @@
  * Utiliza la clase {@link Nodo}
  * 
  * @author Prof. MCIC. Gilde Valeria Rodríguez Jiménez
- * Modificaciones a firma de métodos con syncronized. (Comentado)
  */
 public class ColaSecuencial {
 
@@ -34,7 +33,6 @@ public class ColaSecuencial {
 	 * @return Respuesta que responde al éxito de encolar el nuevo nodo.
      *         <code>true</code> si fue éxitosa, <code>false</code> si ocurió un error
 	 */
-	//public synchronized Boolean enq(String x) {
 	public Boolean enq(String x) {
 		Nodo newnode = new Nodo(x);
 		Nodo last  = this.head;
@@ -55,7 +53,6 @@ public class ColaSecuencial {
 	 * Des-encolar un nodo de la cola
 	 * @return Cadena con el contenido del elemento des-encolado
 	 */
-	//public synchronized String deq() {
 	public String deq() {
 		if(this.head.next == this.tail) {
 			return "empty";

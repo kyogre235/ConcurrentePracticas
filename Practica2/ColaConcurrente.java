@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Clase que simula una cola concurrente utilizando una pool de hilos
+ * Modificaciones a firma de métodos con syncronized. (Comentado)
  */
 public class ColaConcurrente {
     
@@ -40,6 +41,7 @@ public class ColaConcurrente {
      *         <code>true</code> si fue éxitosa, <code>false</code> si ocurió un error
      */
     public Future<Boolean> enq(String contenido) {
+    //public synchronized Future<Boolean> enq(String contenido) {
 
         /*
          * El método submit necesita un objeto de tipo Runnable.
@@ -60,6 +62,7 @@ public class ColaConcurrente {
      *         Cadena con el contenido del elemento des-encolado
      */
     public Future<String> deq () {
+    // public synchronized Future<String> deq () {
 
         /*
          * El método submit necesita un objeto de tipo Runnable.
