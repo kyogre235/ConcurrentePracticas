@@ -9,7 +9,7 @@ public class MainPeterson4 {
 
     public static void main(String[] args) {
         final int threads = 4;
-        final int tareas = 400;
+        final int tareas = 4;
         //final int tareas = 100000;
         ExecutorService executorTarea = Executors.newFixedThreadPool(threads);
         Peterson4Threads lock = new Peterson4Threads();

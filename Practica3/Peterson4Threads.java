@@ -48,9 +48,9 @@ public class Peterson4Threads implements CandadoLimitado {
      * @throws ExceededThreadLimitException Si se intenta registrar un hilo más de la cantidad máxima
      */
     public void lock() {
+        // System.out.println("lock thread: " + Thread.currentThread().threadId());
         register();
         int internalThreadId = getInternalIdThread();
-        
         if (internalThreadId == 0 || internalThreadId == 1)
             lock1.lock();
         else if (internalThreadId == 2 || internalThreadId == 3)
@@ -65,14 +65,14 @@ public class Peterson4Threads implements CandadoLimitado {
      */
     public void unlock() {
         int internalThreadId = getInternalIdThread();
-        
         lock3.unlock();
         if (internalThreadId == 0 || internalThreadId == 1)
-            lock1.unlock();
+        lock1.unlock();
         else if (internalThreadId == 2 || internalThreadId == 3)
-            lock2.unlock();
-
+        lock2.unlock();
+        
         threadsId[internalThreadId] = -1;
+        // System.out.println("unlock thread: " + Thread.currentThread().threadId());
     }
 
     /**
