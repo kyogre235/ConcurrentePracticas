@@ -7,7 +7,7 @@ public class Contador {
     /**
      * Contador de la clase
      */
-    long contador;
+    private long contador;
 
     /**
      * Conatructor de la clase.
