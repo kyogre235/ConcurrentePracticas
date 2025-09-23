@@ -5,14 +5,19 @@ import java.util.concurrent.TimeUnit;
 /**
  * Clase con el método principal que simula un lock Peterson para 4 threads, ejecutando 400 tareas.
  */
-public class MainPeterson4 {
+public class Main {
 
     public static void main(String[] args) {
         final int threads = 4;
-        final int tareas = 4;
-        //final int tareas = 100000;
+        //final int tareas = 400;
+        final int tareas = 100000;
         ExecutorService executorTarea = Executors.newFixedThreadPool(threads);
-        Peterson4Threads lock = new Peterson4Threads();
+        CandadoLimitado lock;
+        if (args.length < 0 || args[0].equals("P"))
+            lock = new Peterson4Threads();
+        else
+            lock = new Bakery4Threads();
+
         Contador contador = new Contador();
         ContadorActividades contadorThreads = new ContadorActividades(threads);
 
