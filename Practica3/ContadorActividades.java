@@ -17,7 +17,7 @@ public class ContadorActividades {
     /**
      * Contadores respectivos a cada thread
      */
-    private volatile long[] contadores;
+    private long[] contadores;
 
     /**
      * Constructor de la clase

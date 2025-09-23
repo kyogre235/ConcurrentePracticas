@@ -7,7 +7,7 @@ public class Contador {
     /**
      * Contador de la clase
      */
-    volatile long contador;
+    long contador;
 
     /**
      * Conatructor de la clase.
