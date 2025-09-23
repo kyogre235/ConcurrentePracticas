@@ -14,12 +14,12 @@ public class Bakery4Threads implements CandadoLimitado {
     private volatile long[] threadsId = new long[MAX_THREADS];
 
     /**
-     * Identificadores de los threads
+     * Banderas que indica si el thread quiere entrar a la sección crítica
      */
     private volatile boolean[] flags = new boolean[MAX_THREADS];
 
     /**
-     * Identificadores de los threads
+     * Etiqueta de orden
      */
     private volatile int[] labels = new int[MAX_THREADS];
 
@@ -50,7 +50,6 @@ public class Bakery4Threads implements CandadoLimitado {
             if (k == internalThreadId)
                 continue;
             while (flags[k] && (labels[k] <= labels[internalThreadId] && k < internalThreadId)) { /* Busy wait */ }
-            break;
         }
     }
 

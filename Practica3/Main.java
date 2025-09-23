@@ -7,31 +7,41 @@ import java.util.concurrent.TimeUnit;
  */
 public class Main {
 
+    /**
+     * Imprime el uso del programa
+     */
+    private static void uso() {
+        System.err.println("Se necesita una cadena como argumento para seleccionar el tipo de candado\n\t* Peterson para 4 threads: \"P\"\n\t* Bakery para 4 threads: \"B\"");
+        System.err.println("Uso: javac *.java\n    java Main \"P\"\njava Main \"B\"");
+        System.exit(1);
+    }
+
     public static void main(String[] args) {
         final int threads = 4;
-        //final int tareas = 400;
-        final int tareas = 100000;
+        final int tareas = 400;
+        // final int tareas = 100000; // Más cantidad de tareas :D
         ExecutorService executorTarea = Executors.newFixedThreadPool(threads);
-        CandadoLimitado lock;
-        if (args.length < 0 || args[0].equals("P"))
-            lock = new Peterson4Threads();
-        else
-            lock = new Bakery4Threads();
-
+        CandadoLimitado lock = null;
+        if (args.length != 0) {
+            if (args[0].toUpperCase().equals("P"))
+                lock = new Peterson4Threads();
+            else if (args[0].toUpperCase().equals("B"))
+                lock = new Bakery4Threads();
+        }
+        if (lock == null)
+            uso();
         Contador contador = new Contador();
         ContadorActividades contadorThreads = new ContadorActividades(threads);
 
-        for (int i = 0; i < tareas; i++) {
+        for (int i = 0; i < tareas; i++)
             executorTarea.execute(new Tarea(i, lock, contador, contadorThreads));
-        }
         
         /* Detiene la ejecución */
         executorTarea.shutdown();
 
         try {
-            if (!executorTarea.awaitTermination(15, TimeUnit.SECONDS)) {
+            if (!executorTarea.awaitTermination(15, TimeUnit.SECONDS))
                 executorTarea.shutdownNow();
-            }
         } catch (InterruptedException e) {
             executorTarea.shutdownNow();
         }
