@@ -4,25 +4,25 @@
  */
 public class Peterson implements CandadoLimitado {
 
+	/**
+     * Máximo de threads permitido
+     */
+    private final int MAX_THREADS = 2;
+
     /**
      * Identificadores de los threads
      */
-    private volatile long[] threadsId = new long[2];
+    private volatile long[] threadsId = new long[MAX_THREADS];
 
     /**
      * Banderas
      */
-	private volatile boolean[] flag = new boolean[2];
+	private volatile boolean[] flag = new boolean[MAX_THREADS];
 
     /**
      * Víctima
      */
 	private volatile int victim;
-
-    /**
-     * Máximo de threads permitido
-     */
-    private final int MAX_THREADS = 2;
 
     /**
      * Constructor de la clase
