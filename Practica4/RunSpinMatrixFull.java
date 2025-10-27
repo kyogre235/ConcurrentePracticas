@@ -53,7 +53,7 @@ public class RunSpinMatrixFull {
 		try {
 			lock.lock();
 			add();
-			matrixString();
+			//matrixString();
 		} finally {
 			lock.unlock();		
 		}
