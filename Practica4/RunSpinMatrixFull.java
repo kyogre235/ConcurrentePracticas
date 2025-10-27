@@ -53,7 +53,7 @@ public class RunSpinMatrixFull {
 		try {
 			lock.lock();
 			add();
-			//matrixString();
+			System.out.println(matrixString());
 		} finally {
 			lock.unlock();		
 		}
@@ -86,7 +86,7 @@ public class RunSpinMatrixFull {
 	public static void main(String[] args) {
 		// Valores a modificar
 		final int THREADS = 4;
-		final int TASKS = 400;
+		final int TASKS = 100;
 
 		// Candados
 		List<Lock> locks = new ArrayList<>(); 
@@ -113,7 +113,7 @@ public class RunSpinMatrixFull {
 
 			System.out.println("Program took " +
                 (endTime - startTime) * 0.000001 + "ms, with " + lock.getClass() + " on " + contador + " tasks.") ; //En milisegundos
-			System.out.println("Matriz:\n" + matrixString());
+			//System.out.println("Matriz:\n" + matrixString());
 			restart();
 		}
 	}
