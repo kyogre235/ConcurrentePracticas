@@ -52,6 +52,7 @@ public class RunSpinMatrix {
 		try {
 			lock.lock();
 			add();
+			//matrixString();
 		} finally {
 			lock.unlock();		
 		}
